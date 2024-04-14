@@ -199,6 +199,8 @@ if __name__ == "__main__":
     from nab.detectors.earthgecko_skyline.earthgecko_skyline_detector import EarthgeckoSkylineDetector
   if "ARTime" in args.detectors:
     from nab.detectors.ARTime.ARTime_detector import ARTimeDetector
+  if "epik" in args.detectors:
+    from nab.detectors.epik.epik_detector import EpikDetector
 
   if args.skipConfirmation or checkInputs(args):
     main(args)
