@@ -12,17 +12,17 @@ class EpikDetector(AnomalyDetector):
         ps = 2 ** 3
         alphas = 2 ** -12
         az = 64
-        bz = 2 ** 2
+        bz = 2 ** 2 + 2
         cz = 2 ** 10
-        dz = 2 ** 11
+        dz = 2 ** 10
         pz = 2 ** 3
         alphaz = 2 ** -12
-        test = 1
-        min_overlap = 40  # Minimum overlap between the predicted observation and the encoded observation
+        test = 2
+        min_overlap = 52  # Minimum overlap between the predicted observation and the encoded observation
         delta = 2 * az - 2 * min_overlap
         tau = 0.75
-        learning_rate = 2 ** 1
-        sub_seq_len = 2 ** 2 - 1
+        learning_rate = 2 ** 2
+        sub_seq_len = 2 ** 3
 
         # Create detector
         self.detector = NPCLAD.NPCLAD(cs=cs, ps=ps, alphas=alphas,
@@ -38,6 +38,6 @@ class EpikDetector(AnomalyDetector):
         value = inputData["value"]
 
         # Handle the input value
-        anomaly, score, predicted_value = self.detector.handle(value)
+        _, score, _, _, _, _ = self.detector.handle(value)
 
-        return score
+        return (score,)
