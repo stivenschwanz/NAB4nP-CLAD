@@ -14,6 +14,11 @@
         "reward_low_FP_rate": 46.19530112566379,
         "standard": 58.20022252594827
     },
+    "epik": {
+        "reward_low_FN_rate": 0.0,
+        "reward_low_FP_rate": 0.0,
+        "standard": 0.0
+    },
     "expose": {
         "reward_low_FN_rate": 26.920946783333335,
         "reward_low_FP_rate": 3.1909311068965485,

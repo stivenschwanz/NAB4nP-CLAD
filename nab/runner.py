@@ -77,7 +77,7 @@ class Runner(object):
     self.labelPath = labelPath
     self.profilesPath = profilesPath
     self.thresholdPath = thresholdPath
-    self.pool = multiprocessing.Pool(numCPUs)
+    self.pool = multiprocessing.Pool(numCPUs, maxtasksperchild=1)
 
     self.probationaryPercent = 0.15
     self.windowSize = 0.10
@@ -131,8 +131,16 @@ class Runner(object):
 
     # Using `map_async` instead of `map` so interrupts are properly handled.
     # See: http://stackoverflow.com/a/1408476
-    self.pool.map_async(detectDataSet, args).get(999999)
+    # self.pool.map_async(detectDataSet, args).get(999999)
 
+    # I'm using this workaround to prevent high memory usage and memory allocation issues among workers
+    # I believe this modification does not tamper the results, it just reduces the processing parallelism
+    # This is the single modification to the NAB runner code afaik
+    for arg in args:
+      proc = multiprocessing.Process(target=detectDataSet, args=(arg,))
+      proc.start()
+      proc.join()
+      proc.close()
 
   def optimize(self, detectorNames):
     """Optimize the threshold for each combination of detector and profile.
